@@ -8,39 +8,86 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         const root = document.getElementById("root");
-        
-        function App() {
+        function MinutesToHours() {
             const [amount, setAmount] = React.useState(0);
-            const [flipped, setFlipped] = React.useState(false);
+            const [inverted, setInverted] = React.useState(false);
             const onChange = (event) => {
                 setAmount(event.target.value);
             }
             const reset = () => {
                 setAmount(0);
             }
-            const onFlip = () => {
+            const onInvert = () => {
                 reset();
-                setFlipped((current) => !current);
+                setInverted((current) => !current);
             }
             return (
             <div>
                 <div>
-                    <h1>Super Converter</h1>
                     <label htmlFor="minutes">Minutes</label>
                     <input id="minutes" type="number" placeholder="Minutes" 
-                        value={flipped ? amount * 60 : amount}
+                        value={inverted ? amount * 60 : amount}
                         onChange={onChange}
-                        disabled={flipped}/>
+                        disabled={inverted}/>
                 </div>
                 <div>
                     <label htmlFor="hours">Hours</label>
                     <input id="hours" type="number" placeholder="Hours" 
-                        value={flipped ? amount : Math.round(amount/60)}
+                        value={inverted ? amount : Math.round(amount/60)}
                         onChange={onChange}
-                        disabled={!flipped}/>
+                        disabled={!inverted}/>
                 </div>
                 <button onClick={reset}>Reset</button>
-                <button onClick={onFlip}>Flip</button>
+                <button onClick={onInvert}>
+                    {inverted ? "Turn back" :  "Invert"}
+                </button>
+            </div>  
+            );  
+        }
+        function KmToMiles() {
+            const [amount, setAmount] = React.useState(0);
+            const onChange = (event) => {setAmount(event.target.value)}
+            const reset = () => setAmount(0);
+            const [inverted, setInverted] = React.useState(false);
+            const invert = () => {
+                reset();
+                setInverted((current) => !current);
+            }
+            return (
+                <div>
+                    <div>
+                        <label htmlFor="Km">Km</label>
+                        <input type="number" id="Km" 
+                            value={inverted ? amount / 0.621371 : amount}
+                            onChange={onChange}
+                            disabled={inverted}/><br/>
+                        <label htmlFor="Miles">Miles</label>
+                        <input type="number" id="Miles" 
+                            value={inverted ? amount : amount * 0.621371}
+                            onChange={onChange}
+                            disabled={!inverted}/>
+                    </div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={invert}>Invert</button>
+                </div>
+            );
+        }
+        function App() {
+            const [index, setIndex] = React.useState("0")
+            const onSelect = (event) => {
+                setIndex(event.target.value);
+            }
+            return (
+            <div>
+                <h1>Super Converter</h1>
+                <select onChange={onSelect}>
+                    <option value="0">Minutes & Hours</option>
+                    <option value="1">Km & Miles</option>
+                </select>
+                <hr/>
+                {/*{index === "0" ? <MinutesToHours /> : <KmToMiles />}*/} 
+                {index === "0" ? <MinutesToHours /> : null}
+                {index === "1" ? <KmToMiles /> : null}
             </div>  
             );  
         }
