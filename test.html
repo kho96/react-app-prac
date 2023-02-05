@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
+    <script type="text/babel">
+        const root = document.getElementById("root");
+        // 정의되지 않은 prop의 경우 초기값을 부여할 수 있다.
+        function Btn({text, fontSize = 12}) {
+            // function Btn(props) -> props -> Object, props.key
+            // 축약형, 사용하고자 하는 key를 적어주면 밑어서 바로 사용 가능
+            return (
+                <button 
+                style={{
+                    backgroundColor: "tomato",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: 10,
+                    fontSize: fontSize
+                }}
+                >{text}</button>
+            );    
+        }
+        // props의 타입을 설정해서 잘못된 타입으로 들어오는 경우 콘솔에서 확인가능!
+        // isRequired - 반드시 prop으로 설정되어야 함
+        Btn.propTypes = {
+            text: PropTypes.string.isRequired,
+            fontSize: PropTypes.number,
+        }
+
+        // react의 메모기능을 이용해 컴포넌트를 전체 렌더링하지 않고, 바뀐 부분만 렌더링 가능
+        {/* const MemorizedBtn = React.memo(Btn); */}
+
+        function App() {
+            {/*
+            const [value, setValue] = React.useState("Save Changes");
+            const changeValue = () => setValue("Revert Changes");
+            */}
+            return (
+            <div>
+                {/*
+                <MemorizedBtn text={value} changeValue={changeValue}/>
+                <MemorizedBtn text="Continue" />
+                */}
+                <Btn text="Save Changes" fontSize={18} />
+                <Btn text="tttt" />
+            </div>  
+            );  
+        }
+        ReactDOM.render(<App/>, root); 
+    </script>
+</html>
